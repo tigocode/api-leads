@@ -1,10 +1,14 @@
 const validarNome = (nome) => {
-  const isValid = nome.length >= 2;
+  const regexNome = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s\-'´`]+$/;
+
+  const isValid = nome.length >= 2 && regexNome.test(nome);
 
   return isValid;
 };
 const validarEmail = (email) => {
-  const isValid = email !== '' ? true : false;
+  const RegexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  const isValid = RegexEmail.test(email);
 
   return isValid;
 }
