@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 
 const { cadastrarLeads } = require('./service/services');
+const { validarUsuario } = require('./validation/validacao');
 
 app.use(cors());
 app.use(express.json());
@@ -10,9 +11,14 @@ app.use(express.json());
 app.post('/leads', async (req, res) => {
   const { nome, email } = req.body;
 
-  await cadastrarLeads(nome, email);
+  const usuarioValido = validarUsuario(nome, email);
 
-  res.status(204).send();
+  if(usuarioValido.status) {
+    await cadastrarLeads(nome, email);
+    res.status(204).send();
+  } else {
+    res.status(400).send({mensagem: usuarioValido.mensagem});
+  }
 });
 
 app.listen(3000, () => {
